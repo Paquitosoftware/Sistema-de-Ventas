@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="226" pageHeight="226" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true">
+	<property name="ireport.zoom" value="2.8531167061100042"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="96"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="usuario" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select (select nombre from producto where idProducto=productoventa.idProducto) as nombre, (select concat(nombre,' ',apPaterno,' ',apMaterno) from usuario where idUsuario=idVendedor) as name, (select precio from producto where idProducto=productoventa.idProducto) as costo, cantidad, subtotal, now() as fecha, cantRecibida, cambio from productoventa inner join venta on (productoventa.idVenta=venta.idVenta) WHERE productoventa.idVenta=(select max(idVenta) from venta WHERE idVendedor=(SELECT idUsuario from usuario WHERE usuario=$P{usuario}));]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="costo" class="java.lang.Double"/>
+	<field name="cantidad" class="java.lang.Integer"/>
+	<field name="subtotal" class="java.lang.Double"/>
+	<field name="fecha" class="java.sql.Timestamp"/>
+	<field name="cantRecibida" class="java.lang.Double"/>
+	<field name="cambio" class="java.lang.Double"/>
+	<variable name="subtotal_1" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{subtotal}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="122" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="65" width="186" height="24"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CECONEXPO ]]></text>
+			</staticText>
+			<image>
+				<reportElement x="53" y="0" width="77" height="65"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="89" width="186" height="10"/>
+				<textElement textAlignment="Center">
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Centro de convenciones y Exposiciones de Morelia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="110" width="186" height="12"/>
+				<textElement textAlignment="Center">
+					<font fontName="Lucida Sans Typewriter" size="6"/>
+				</textElement>
+				<text><![CDATA[Morelia]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="43" splitType="Stretch">
+			<staticText>
+				<reportElement x="103" y="33" width="27" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:  ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="33" width="54" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="10" width="186" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Lucida Sans Typewriter" size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="10"/>
+				<textElement textAlignment="Center">
+					<font fontName="Lucida Sans Typewriter" size="6"/>
+				</textElement>
+				<text><![CDATA[Michoacan]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="66" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="112" y="0" width="32" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="0" width="34" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Costo   ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="152" y="1" width="44" height="19"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub. Total ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="66" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="152" y="0" width="34" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{subtotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="0" width="25" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="0" width="23" height="10"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="83" splitType="Stretch">
+			<staticText>
+				<reportElement x="106" y="12" width="37" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:  ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="144" y="12" width="42" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{subtotal_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="106" y="33" width="37" height="9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Efectivo:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="106" y="42" width="37" height="9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cambio:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="186" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="63" width="182" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[¡GRACIAS POR SU COMPRA! ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="144" y="42" width="40" height="9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{cambio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="33" width="40" height="9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Lucida Sans Typewriter" size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{cantRecibida}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
